@@ -8,11 +8,39 @@ import java.util.Scanner;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHandler;
+
+import Servlets.CreateGoogleTasksFromGitIssues;
+import Servlets.ShowIssuesServlet;
 import URLConnection.URLConnectionManager;
 
 public class Execute {
 
-	public static void main(String [] args) throws SSLPeerUnverifiedException{
+	private static int LISTEN_PORT = 8080;
+
+	public static void main(String [] args) throws Exception{
+		Ex5();
+		Ex6();
+	}
+
+	private static void Ex6() throws Exception {
+		Server server = new Server(LISTEN_PORT);
+		ServletHandler handler = new ServletHandler();
+		server.setHandler(handler);
+		handler.addServletWithMapping(ShowIssuesServlet.class, "/git-issues");
+		handler.addServletWithMapping(CreateGoogleTasksFromGitIssues.class, "/import-issues");
+		server.start();
+		
+		System.out.println("Brah do you even server?");
+		
+		System.in.read();
+		server.stop();
+		
+		System.out.println("No, I don't even server :( !");
+	}
+
+	private static void Ex5() throws SSLPeerUnverifiedException {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Please insert the desired URL!");
 		String urlname;// = in.nextLine();
