@@ -1,3 +1,4 @@
+
 import java.security.cert.X509Certificate;
 import java.util.Scanner;
 
@@ -14,11 +15,14 @@ public class Execute {
 		HttpsURLConnection connection = Utils.getConnection(urlname);
 		X509Certificate[] certificates = (X509Certificate[])connection.getServerCertificates();
 		System.out.println("Valid from : "+certificates[0].getNotBefore().toString()+"\n\tto :"+certificates[0].getNotAfter().toString()+"\n");
+		Utils.printHostNameValidity(certificates[0]);
 		Utils.printCertificates(certificates);
 		System.out.println("Earliest expiration date on the chain: "+Utils.earliestExpirationCertificate(certificates).toString()+"\n");
-		in.close();
-		connection.disconnect();
+		System.out.println("\n************************************************************************ \n");
 
+		connection.disconnect();
+		in.close();
 	}
+
 
 }

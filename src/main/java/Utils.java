@@ -3,10 +3,13 @@
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 
 public class Utils {
@@ -43,5 +46,21 @@ public class Utils {
 			}
 		}
 		return earliestExpirationDateCert.getNotAfter();
+	}
+	
+	public static void printHostNameValidity(X509Certificate cert) {
+
+		try {
+			Collection<List<?>> alternativeNames = cert.getSubjectAlternativeNames();
+			System.out.println("Names for which this certificate is valid: ");
+			for (List<?> s : alternativeNames){
+				System.out.println(s.get(1).toString());
+			}
+			System.out.println();
+
+		} catch (CertificateParsingException e) {
+			e.printStackTrace();
+			System.out.println("Error parsing certificate.");
+		}
 	}
 }
