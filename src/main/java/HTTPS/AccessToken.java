@@ -13,10 +13,18 @@ import Servlets.GithubServlet;
 
 public class AccessToken {
 
-	private String value;
+	private String token,type,scope;
 	
 	public AccessToken(String value){
-		this.value = value;
+		split(value);
+	}
+
+	private void split(String value) {
+		String[] tokenParts = value.split(","),pairs;
+		pairs = tokenParts[0].split(":");
+		token = pairs[1].replace("\"", "");
+		
+		
 	}
 
 	public static AccessToken getGitHubAcessToken(String code){
@@ -64,6 +72,6 @@ public class AccessToken {
 		return null;
  
 	}
-	public String getValue(){return value;}
+	public String getValue(){return token;}
 
 }

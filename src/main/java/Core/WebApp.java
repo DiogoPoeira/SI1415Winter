@@ -1,6 +1,7 @@
 package Core;
 import HTTPS.AccessToken;
 import HTTPS.HttpsServer;
+import HTTPS.Issues;
 
 
 public class WebApp {
@@ -12,6 +13,8 @@ public class WebApp {
         server.start();
         System.out.println("Server is started");
         while(githubToken==null);
+        //Issues.getIssuesFromAuthenticatedGitUser(WebApp.githubToken.getValue());
+        System.in.read();
         server.stop();
         System.out.println("Server is stopped, bye"); 
 	}

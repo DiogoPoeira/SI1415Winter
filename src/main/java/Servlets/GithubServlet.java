@@ -17,7 +17,7 @@ public class GithubServlet extends HttpServlet{
 	     resp.setHeader("Location","https://github.com/login/oauth/authorize?"+
 	        		"client_id="+CLIENT_ID+
 	        		"&redirect_uri=http://localhost:8080/githubcallback"+
-	        		"&scope=user:email+repo+read:org"+
+	        		"&scope=user:email+repo+read:org+is:private"+
 	        		"&response_type=code");
 	}
 }

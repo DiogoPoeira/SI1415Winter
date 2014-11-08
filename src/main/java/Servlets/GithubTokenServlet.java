@@ -6,13 +6,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Core.WebApp;
+
 @SuppressWarnings("serial")
 public class GithubTokenServlet  extends HttpServlet {
 	
 	 public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		 String code = req.getParameter("access_token"); 
-		 resp.getOutputStream().write(code.getBytes());
-	     resp.getOutputStream().close();
-	     resp.setStatus(200);
+		 resp.setStatus(302);
+	     resp.setHeader("Location","https://api.github.com/issues?"
+	    		 +"access_token="+WebApp.githubToken.getValue());
+	     //resp.setHeader("AUTHORIZATION", WebApp.githubToken.getValue()+"OAUTH-TOKEN");
 	 }
 }
