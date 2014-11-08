@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import Core.WebApp;
 
 @SuppressWarnings("serial")
-public class GithubTokenServlet  extends HttpServlet {
+public class GithubTokenServlet extends HttpServlet {
 	
 	 public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		 resp.setStatus(302);

@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import Servlets.GithubCallbackServlet;
 import Servlets.GithubServlet;
+import Servlets.GoogleTasksServlet;
 
 public class AccessToken {
 
@@ -26,7 +28,42 @@ public class AccessToken {
 		
 		
 	}
+	public static AccessToken getGoogleTasksAccessToken(String code) throws IOException{
+		String url = "https://accounts.google.com/o/oauth2/token";
+		
+			URL obj = new URL(url);
+			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+			
+			String urlParameters = "code=" + code +
+					"&client_id=" + GoogleTasksServlet.CLIENT_ID +
+					"&client_secret=" + GoogleTasksServlet.CLIENT_SECRET + 
+					"&redirect_uri=http://localhost:8080/gtaskscallback" + 
+					"&grant_type=authorization_code";
+			System.out.println("estouaqui.");
+			con.setDoOutput(true);
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			wr.writeBytes(urlParameters);
+			wr.flush();
+			wr.close();
+			
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
 
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			System.out.println(response.toString());
+			return new AccessToken(response.toString());
+			
+					
+		
+					
+		
+	}
+	
 	public static AccessToken getGitHubAcessToken(String code){
 		String url = "https://github.com/login/oauth/access_token";
 		try{

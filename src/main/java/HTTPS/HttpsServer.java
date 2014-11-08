@@ -6,6 +6,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 import Servlets.GithubCallbackServlet;
 import Servlets.GithubServlet;
 import Servlets.GithubTokenServlet;
+import Servlets.GoogleTasksCallbackServlet;
 import Servlets.GoogleTasksServlet;
 
 public class HttpsServer {
@@ -20,6 +21,7 @@ public class HttpsServer {
         server.setHandler(handler);
         handler.addServletWithMapping(GithubServlet.class, "/github");
         handler.addServletWithMapping(GoogleTasksServlet.class, "/gtasks");
+        handler.addServletWithMapping(GoogleTasksCallbackServlet.class, "/gtaskscallback");
         handler.addServletWithMapping(GithubCallbackServlet.class, "/githubcallback");
         handler.addServletWithMapping(GithubTokenServlet.class, "/githubtoken");       
 	}
