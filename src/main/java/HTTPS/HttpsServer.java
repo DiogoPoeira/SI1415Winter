@@ -11,22 +11,25 @@ import Servlets.GoogleTasksServlet;
 public class HttpsServer {
 	
 	public static final int LISTEN_PORT = 8080;
+	private Server server;
+	private ServletHandler handler;
 	
-	public static void main(String [] args) throws Exception{
-		Server server = new Server(LISTEN_PORT);
-		ServletHandler handler = new ServletHandler();
+	public HttpsServer(){
+		server = new Server(LISTEN_PORT);
+		handler = new ServletHandler();
         server.setHandler(handler);
         handler.addServletWithMapping(GithubServlet.class, "/github");
         handler.addServletWithMapping(GoogleTasksServlet.class, "/gtasks");
         handler.addServletWithMapping(GithubCallbackServlet.class, "/githubcallback");
-        handler.addServletWithMapping(GithubTokenServlet.class, "/githubtoken");
-        
-        server.start();
-        System.out.println("Server is started");
-        
-        System.in.read();
-        server.stop();
-        System.out.println("Server is stopped, bye");        
+        handler.addServletWithMapping(GithubTokenServlet.class, "/githubtoken");       
+	}
+
+	public void start() throws Exception {
+		server.start();
+	}
+	
+	public void stop() throws Exception {
+		server.stop();
 	}
 
 }

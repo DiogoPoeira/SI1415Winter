@@ -11,10 +11,6 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 
-import Servlets.CreateGoogleTasksFromGitIssues;
-import Servlets.ShowIssuesServlet;
-import URLConnection.URLConnectionManager;
-
 public class Execute {
 
 	private static int LISTEN_PORT = 8080;
@@ -25,19 +21,19 @@ public class Execute {
 	}
 
 	private static void Ex6() throws Exception {
-		Server server = new Server(LISTEN_PORT);
-		ServletHandler handler = new ServletHandler();
-		server.setHandler(handler);
-		handler.addServletWithMapping(ShowIssuesServlet.class, "/git-issues");
-		handler.addServletWithMapping(CreateGoogleTasksFromGitIssues.class, "/import-issues");
-		server.start();
-		
-		System.out.println("Brah do you even server?");
-		
-		System.in.read();
-		server.stop();
-		
-		System.out.println("No, I don't even server :( !");
+//		Server server = new Server(LISTEN_PORT);
+//		ServletHandler handler = new ServletHandler();
+//		server.setHandler(handler);
+//		handler.addServletWithMapping(ShowIssuesServlet.class, "/git-issues");
+//		handler.addServletWithMapping(CreateGoogleTasksFromGitIssues.class, "/import-issues");
+//		server.start();
+//		
+//		System.out.println("Brah do you even server?");
+//		
+//		System.in.read();
+//		server.stop();
+//		
+//		System.out.println("No, I don't even server :( !");
 	}
 
 	private static void Ex5() throws SSLPeerUnverifiedException {
@@ -46,7 +42,7 @@ public class Execute {
 		String urlname;// = in.nextLine();
 		urlname = "https://www.google.pt";
 
-		HttpsURLConnection connection = URLConnectionManager.getConnection(urlname);
+		HttpsURLConnection connection = Utils.getConnection(urlname);
 		Certificate[] certificates = connection.getServerCertificates();
 		X509Certificate earliestExpirationDateCert = null;
 
