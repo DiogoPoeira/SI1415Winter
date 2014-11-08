@@ -2,13 +2,13 @@ package Servlets;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Core.WebApp;
 import HTTPS.AccessToken;
+import HTTPS.Issues;
 
 @SuppressWarnings("serial")
 public class GithubCallbackServlet extends HttpServlet{
@@ -19,6 +19,7 @@ public class GithubCallbackServlet extends HttpServlet{
 	  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		  String code = req.getParameter("code"),access_token=req.getParameter("access_token");
 		  WebApp.githubToken = AccessToken.getGitHubAcessToken(code);
+		  Issues.getIssuesFromAuthenticatedGitUser(WebApp.githubToken.getValue());
 		  resp.setStatus(200);
 	  }
 }
