@@ -13,8 +13,10 @@ public class GithubTokenServlet extends HttpServlet {
 	
 	 public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		 resp.setStatus(302);
-	     resp.setHeader("Location","https://api.github.com/issues?"
-	    		 +"access_token="+WebApp.githubToken.getValue());
+	     resp.setHeader("Location","https://api.github.com/user/issues?"
+	    		 +"access_token="+WebApp.githubToken.getValue()+
+	    		 "&state=all"+
+	    		 "&filter=all");
 	     //resp.setHeader("AUTHORIZATION", WebApp.githubToken.getValue()+"OAUTH-TOKEN");
 	 }
 }
