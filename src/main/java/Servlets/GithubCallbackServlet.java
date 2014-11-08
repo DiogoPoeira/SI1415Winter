@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Core.WebApp;
 import HTTPS.AccessToken;
+import HTTPS.Issues;
 
 @SuppressWarnings("serial")
 public class GithubCallbackServlet extends HttpServlet{
@@ -18,6 +19,7 @@ public class GithubCallbackServlet extends HttpServlet{
 	  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		  String code = req.getParameter("code");
 		  WebApp.githubToken = AccessToken.getGitHubAcessToken(code);
+		  Issues.getIssuesFromAuthenticatedGitUser(WebApp.githubToken.getValue());
 		  resp.setStatus(200);
 	  }
 }
