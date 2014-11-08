@@ -3,14 +3,13 @@
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import java.security.cert.CertificateParsingException;
-import java.security.cert.X509Certificate;
 
 public class Utils {
 	

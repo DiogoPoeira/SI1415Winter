@@ -14,21 +14,30 @@ import Servlets.GithubServlet;
 public class Issues {
 
 	public static void getIssuesFromAuthenticatedGitUser(String accessToken){
-		String url = "https://api.github.com/user/repos";
+		String url = "https://api.github.com/search/issues";
 		try{
 			URL obj = new URL(url);
 			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
+
+			String token = accessToken.substring(accessToken.indexOf(":") +2);
+			token = token.substring(0, token.indexOf("\""));
+			System.out.println(token); 
+			
 			//add reuqest header
-			con.setRequestMethod("POST");
+			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", "Mozilla/5.0");
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			con.setRequestProperty("Accept", "application/json");
-
-			String urlParameters = "client_id="+GithubServlet.CLIENT_ID+
+			con.setRequestProperty("AUTHORIZATION", token + " OAUTH-TOKEN");
+			System.out.println(accessToken);
+			
+			
+			String urlParameters = /*"client_id="+GithubServlet.CLIENT_ID+
 	        		"&client_secret="+GithubCallbackServlet.CLIENT_SECRET+
-	        		"&redirect_uri=http://localhost:8080/githubcallback"+
-	        		"&access_token=" + accessToken;
+	        		"&redirect_uri=http://localhost:8080/githubcallback"+*/
+					//"access_token=" + token + 
+	        		"q=user:lcduarte";
 
 			// Send post request
 			con.setDoOutput(true);
@@ -38,8 +47,8 @@ public class Issues {
 			wr.close();
 
 			int responseCode = con.getResponseCode();
-			System.out.println("\nSending 'POST' request to URL : " + url);
-			System.out.println("Post parameters : " + urlParameters);
+			System.out.println("\nSending 'GET' request to URL : " + url);
+			System.out.println("GET parameters : " + urlParameters);
 			System.out.println("Response Code : " + responseCode);
 
 			BufferedReader in = new BufferedReader(
@@ -52,7 +61,7 @@ public class Issues {
 			}
 			in.close();
 			//print result
-			System.out.println(response.toString());
+			System.out.println("derp" + response.toString());
 		}
 		catch(IOException e){
 			
