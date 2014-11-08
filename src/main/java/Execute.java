@@ -16,8 +16,9 @@ public class Execute {
 	private static int LISTEN_PORT = 8080;
 
 	public static void main(String [] args) throws Exception{
-		Ex5();
+		//Ex5();
 		Ex6();
+//		JsonReader.jsonToJava("");
 	}
 
 	private static void Ex6() throws Exception {
@@ -26,6 +27,7 @@ public class Execute {
 //		server.setHandler(handler);
 //		handler.addServletWithMapping(ShowIssuesServlet.class, "/git-issues");
 //		handler.addServletWithMapping(CreateGoogleTasksFromGitIssues.class, "/import-issues");
+//		handler.addServletWithMapping(Callback.class, "/callback");
 //		server.start();
 //		
 //		System.out.println("Brah do you even server?");
