@@ -27,6 +27,6 @@ public class IssueToTaskListConverter {
 		if (issue.state != null)
 			status = issue.state.equalsIgnoreCase("open") ? "needsAction" : "completed";
 		
-		return new GoogleTask(issue.title, issue.body, status, dateOfCompletion);
+		return new GoogleTask(issue.title, status, dateOfCompletion);
 	}
 }

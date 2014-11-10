@@ -51,17 +51,17 @@ public class HttpGoogleTaskListRetriever {
 			inputLine = in.readLine();
 		}
 		in.close();
-		
+		System.out.println(response.toString());
 		return getTaskListsFromJsonString(response.toString());
 		
 	}
 
 	private JsonElement getTaskListsFromJsonString(String resp) {
-		JsonArray tasklistArray = jsonParser.parse(resp).getAsJsonArray();
+		JsonArray tasklistArray = jsonParser.parse(resp).getAsJsonObject().get("items").getAsJsonArray();
 		JsonElement elem;
 		for (int i = 0; i < tasklistArray.size() ; ++i){
 			elem = tasklistArray.get(i);
-			if(!elem.isJsonNull()&&((JsonObject) elem).get("title").equals(GoogleTaskList.title))
+			if(!elem.isJsonNull()&&((JsonObject) elem).get("title").getAsString().equals(GoogleTaskList.title))
 				return elem;
 		}
 		return null;
@@ -98,13 +98,14 @@ public class HttpGoogleTaskListRetriever {
 	}
 
 	private List<JsonElement> filterTasks(List<GoogleTask> tasks, String resp) {
-		JsonArray taskArray = jsonParser.parse(resp).getAsJsonArray();
+		JsonArray taskArray = jsonParser.parse(resp).getAsJsonObject().get("items").getAsJsonArray();
 		List<JsonElement> tasksfound = new ArrayList<JsonElement>();
 		GoogleTask aux;
 		JsonElement elem;
 
 		for (int i = 0; i < taskArray.size() ; ++i){
 			elem = taskArray.get(i);
+			System.out.println(elem);
 			aux= googledeserializer.deserialize(elem,GoogleTask.class,null);
 			if(!tasks.contains(aux))
 				tasksfound.add(elem);

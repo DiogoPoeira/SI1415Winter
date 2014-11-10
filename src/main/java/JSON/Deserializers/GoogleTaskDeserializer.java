@@ -16,13 +16,12 @@ public class GoogleTaskDeserializer implements JsonDeserializer<GoogleTask>{
 	@Override
 	public GoogleTask deserialize(JsonElement elem, Type type, JsonDeserializationContext context) throws JsonParseException {
 		JsonObject elemObj = elem.getAsJsonObject();
-		JsonElement title = elemObj.get("title") , notes = elemObj.get("notes") , status = elemObj.get("status") , completed = elemObj.get("completed");
+		JsonElement title = elemObj.get("title"), status = elemObj.get("status") , completed = elemObj.get("completed");
 		
 		
 		return new GoogleTask( title.isJsonNull() ? null : title.getAsString(),
-								notes.isJsonNull() ? null : notes.getAsString(),
 								status.isJsonNull() ? null : status.getAsString(),
-								completed.isJsonNull() ? null : DateTimeUtils.getDateTimeFromString(completed.getAsString())
+								completed==null?null:(completed.isJsonNull() ? null : DateTimeUtils.getDateTimeFromString(completed.getAsString()))
 								);
 	}
 

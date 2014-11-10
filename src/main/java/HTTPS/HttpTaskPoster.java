@@ -6,6 +6,7 @@ import java.util.List;
 
 import Core.WebApp;
 import Entities.GoogleTask;
+import Entities.GoogleTaskList;
 import JSON.Serializers.GoogleTaskSerializer;
 import Utils.HttpRequests;
 
@@ -35,8 +36,8 @@ public class HttpTaskPoster {
 	private JsonElement addNewList() throws IOException {
 		String taskListUrl = "https://www.googleapis.com/tasks/v1/users/@me/lists";
 		JsonObject taskListElem = new JsonObject();
-		taskListElem.add( "kind" , new JsonPrimitive("tasks#taskList"));
-		taskListElem.add( "title" , new JsonPrimitive("GitHubIssues"));	
+		taskListElem.add( "kind" , new JsonPrimitive(GoogleTaskList.kind));
+		taskListElem.add( "title" , new JsonPrimitive(GoogleTaskList.title));	
 		HttpRequests.sendPost(taskListUrl, taskListElem);
 		return retriever.lookForTaskList();
 	}

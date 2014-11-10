@@ -2,9 +2,8 @@ package Utils;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import Core.WebApp;
 
@@ -16,9 +15,9 @@ public class HttpRequests {
 		if (elem.isJsonNull()) 
 			return;
 		
-		String content = elem.getAsString();
+		String content = elem.toString();
 		URL url = new URL(urlString);
-		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
 		con.setRequestMethod("POST");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -35,7 +34,7 @@ public class HttpRequests {
 		wr.close();
 
 		int responseCode = con.getResponseCode();
-		System.out.println("Sending 'POST' request to URL : " + url.getHost());
+		System.out.println("Sending 'POST' request to URL : " + con.getURL().getHost()+con.getURL().getFile());
 		System.out.println("Response Code : " + responseCode);
 	}
 }

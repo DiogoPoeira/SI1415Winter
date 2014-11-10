@@ -18,7 +18,6 @@ public class GoogleTaskSerializer implements JsonSerializer<GoogleTask>{
 		JsonObject taskObj = new JsonObject();
 		taskObj.add("kind", new JsonPrimitive(GoogleTask.kind));
 		taskObj.add("title", new JsonPrimitive(task.title));
-		taskObj.add("notes", new JsonPrimitive(task.notes));
 		taskObj.add("status", new JsonPrimitive(task.status));
 		taskObj.add("completed", task.completed == null ? JsonNull.INSTANCE : new JsonPrimitive(task.completed.toString()));
 		return taskObj;
