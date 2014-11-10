@@ -7,6 +7,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import Core.WebApp;
 import Entities.GitHubIssue;
 import JSON.Deserializers.IssueDeserializer;
 
@@ -21,7 +22,7 @@ public class HttpIssuesRequester {
 
 	public GitHubIssue[] getIssuesFromAuthenticatedGitUser() throws IOException{
 		
-		URL url = new URL("https://api.github.com/user/issues?access_token=4c9e6e9ea21c582ffbe7251c6fd3a450d512c471&state=all&filter=all");
+		URL url = new URL("https://api.github.com/user/issues?access_token="+WebApp.githubToken.getValue()+"&state=all&filter=all");
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
 		con.setRequestMethod("GET");

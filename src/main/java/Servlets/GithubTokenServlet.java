@@ -17,6 +17,5 @@ public class GithubTokenServlet extends HttpServlet {
 	    		 +"access_token="+WebApp.githubToken.getValue()+
 	    		 "&state=all"+
 	    		 "&filter=all");
-	     //resp.setHeader("AUTHORIZATION", WebApp.githubToken.getValue()+"OAUTH-TOKEN");
 	 }
 }
