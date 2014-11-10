@@ -1,6 +1,7 @@
 package HTTPS;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import Core.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
 import JSON.Serializers.GoogleTaskSerializer;
@@ -21,13 +23,16 @@ public class HttpTaskPoster {
 	private HttpGoogleTaskListRetriever retriever = new HttpGoogleTaskListRetriever();
 	
 	public void getIssuesFromAuthenticatedGitUser(List<GoogleTask> tasks, GoogleTaskList gl) throws IOException{
-		String urlname = "https://www.googleapis.com/tasks/v1/lists/tasklist/tasks";
+		String urlname = "https://www.googleapis.com/tasks/v1/lists/tasklist/tasks?access_token="+WebApp.googleToken.getValue();
 		JsonElement tasklist = retriever.lookForTaskList(tasks);
-		if (tasklist != null){
-			List<JsonElement> elements = retriever.removeDuplicateTasksFromInsertList(tasklist, tasks);
+		List<JsonElement> elements; 
+		if (tasklist != null)
+			elements = retriever.removeDuplicateTasksFromInsertList(tasklist, tasks);
+		else{
+			addNewList();
+			elements= tasksToJson(tasks);
 		}
-	
-		URL url = new URL("");
+		URL url = new URL(urlname);
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
 		con.setRequestMethod("POST");
@@ -36,7 +41,13 @@ public class HttpTaskPoster {
 		con.setRequestProperty("Accept", "application/json");			
 
 		// Send post request
+
 		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		String body;//json dos elements lista cens
+		wr.writeBytes(body);
+		wr.flush();
+		wr.close();
 
 		int responseCode = con.getResponseCode();
 		System.out.println("Sending 'POST' request to URL : " + url.getHost());
@@ -52,6 +63,10 @@ public class HttpTaskPoster {
 		}
 		
 		in.close();
+	}
+
+	private void addNewList() {
+		
 	}
 
 	private List<JsonElement> tasksToJson(List<GoogleTask> tasks) {
