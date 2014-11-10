@@ -16,8 +16,7 @@ public class GoogleTasksCallbackServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		String code = req.getParameter("code");
-		System.out.println("c" + code);
-		  WebApp.googleToken = AccessToken.getGoogleTasksAccessToken(code);
+		WebApp.googleToken = AccessToken.getGoogleTasksAccessToken(code);
 		resp.setStatus(200);
 	}
 }

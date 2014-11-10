@@ -8,24 +8,29 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import Servlets.GithubCallbackServlet;
 import Servlets.GithubServlet;
 import Servlets.GoogleTasksServlet;
 
 public class AccessToken {
 
-	private String token,type,scope;
+	private String token,site;
 	
-	public AccessToken(String value){
+	public AccessToken(String value,String site){
 		split(value);
+		this.site=site;
+		System.out.println(this.toString());
 	}
-
+	public String toString(){
+		return "Token's website : "+site+" => access_token = "+token;
+	}
 	private void split(String value) {
-		String[] tokenParts = value.split(","),pairs;
-		pairs = tokenParts[0].split(":");
-		token = pairs[1].replace("\"", "");
-		
-		
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject)parser.parse(value);
+		token = o.get("access_token").getAsString();
 	}
 	public static AccessToken getGoogleTasksAccessToken(String code) throws IOException{
 		String url = "https://accounts.google.com/o/oauth2/token";
@@ -38,7 +43,6 @@ public class AccessToken {
 					"&client_secret=" + GoogleTasksServlet.CLIENT_SECRET + 
 					"&redirect_uri=http://localhost:8080/gtaskscallback" + 
 					"&grant_type=authorization_code";
-			System.out.println("estouaqui.");
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(urlParameters);
@@ -54,8 +58,7 @@ public class AccessToken {
 				response.append(inputLine);
 			}
 			in.close();
-			System.out.println(response.toString());
-			return new AccessToken(response.toString());
+			return new AccessToken(response.toString(),"Google");
 			
 					
 		
@@ -85,11 +88,6 @@ public class AccessToken {
 			wr.flush();
 			wr.close();
 
-//			int responseCode = con.getResponseCode();
-//			System.out.println("\nSending 'POST' request to URL : " + url);
-//			System.out.println("Post parameters : " + urlParameters);
-//			System.out.println("Response Code : " + responseCode);
-
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(con.getInputStream()));
 			String inputLine;
@@ -99,8 +97,7 @@ public class AccessToken {
 				response.append(inputLine);
 			}
 			in.close();
-			System.out.println(response.toString());
-			return new AccessToken(response.toString());
+			return new AccessToken(response.toString(),"Github");
 		}
 		catch(IOException e){
 			

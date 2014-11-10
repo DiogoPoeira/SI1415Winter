@@ -1,5 +1,8 @@
 package Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import Entities.GitHubIssue;
@@ -7,11 +10,11 @@ import Entities.GoogleTask;
 
 public class IssueToTaskListConverter {
 	
-	public static GoogleTask[] convertList(GitHubIssue[] issueList){
-		GoogleTask[] taskList = new GoogleTask[issueList.length];
+	public static List<GoogleTask> convertList(GitHubIssue[] issueList){
+		List<GoogleTask> taskList = new ArrayList<GoogleTask>();
 		
-		for (int i = 0 ; i < issueList.length ; ++i){
-			taskList[i] = convertSingle(issueList[i]);
+		for (GitHubIssue g : issueList){
+			taskList.add(convertSingle(g));
 		}
 		
 		return taskList;

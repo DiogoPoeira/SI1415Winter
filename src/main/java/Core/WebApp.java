@@ -1,12 +1,12 @@
 package Core;
-import com.google.gson.JsonElement;
+import java.util.List;
 
 import Entities.GitHubIssue;
 import Entities.GoogleTask;
 import HTTPS.AccessToken;
-import HTTPS.HttpsServer;
 import HTTPS.HttpIssuesRequester;
-import JSON.Serializers.GoogleTaskSerializer;
+import HTTPS.HttpTaskPoster;
+import HTTPS.HttpsServer;
 import Utils.IssueToTaskListConverter;
 
 public class WebApp {
@@ -17,17 +17,13 @@ public class WebApp {
 		HttpsServer server = new HttpsServer();
         server.start();
         System.out.println("Server is started");
-        while(githubToken==null);
+        while(googleToken==null);
         
         HttpIssuesRequester issuesRequester = new HttpIssuesRequester();
         GitHubIssue[] issues = issuesRequester.getIssuesFromAuthenticatedGitUser();
-        
-        GoogleTask[] tasks = IssueToTaskListConverter.convertList(issues);
-        
-        for (GoogleTask task : tasks){
-        	JsonElement elem = new GoogleTaskSerializer().serialize(task, GoogleTask.class, null);
-        	System.out.println(elem);
-        }
+        List<GoogleTask> tasks = IssueToTaskListConverter.convertList(issues);
+        HttpTaskPoster poster = new HttpTaskPoster();
+        poster.post(tasks);
         
         System.in.read();
         server.stop();

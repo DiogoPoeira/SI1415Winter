@@ -12,6 +12,7 @@ import javax.net.ssl.HttpsURLConnection;
 import Core.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
+import JSON.Deserializers.GoogleTaskDeserializer;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -23,15 +24,16 @@ public class HttpGoogleTaskListRetriever {
 	private GoogleTaskDeserializer googledeserializer = new GoogleTaskDeserializer();
 	private JsonParser jsonParser = new JsonParser();
 	
-	public JsonElement lookForTaskList(List<GoogleTask> tasks) throws IOException{
+	public JsonElement lookForTaskList() throws IOException{
 		
-		URL url = new URL("https://www.googleapis.com/tasks/v1/users/@me/lists?access_token="+WebApp.googleToken.getValue());
+		URL url = new URL("https://www.googleapis.com/tasks/v1/users/@me/lists");
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
 		con.setRequestMethod("GET");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-		con.setRequestProperty("Accept", "application/json");			
+		con.setRequestProperty("Accept", "application/json");	
+		con.setRequestProperty("Authorization", "Bearer " + WebApp.googleToken.getValue());
 
 		// Send post request
 		con.setDoOutput(true);

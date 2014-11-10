@@ -19,6 +19,6 @@ public class GithubCallbackServlet extends HttpServlet{
 		  String code = req.getParameter("code");
 		  WebApp.githubToken = AccessToken.getGitHubAcessToken(code);
 		  resp.setStatus(200);
-		  resp.sendRedirect("http://localhost:8080/githubtoken");
+		  resp.sendRedirect("http://localhost:8080/gtasks");
 	  }
 }
