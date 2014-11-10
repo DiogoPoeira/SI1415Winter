@@ -20,7 +20,7 @@ public class HttpIssuesRequester {
 	private IssueDeserializer deserializer = new IssueDeserializer();
 
 	public GitHubIssue[] getIssuesFromAuthenticatedGitUser() throws IOException{
-		
+				
 		URL url = new URL("https://api.github.com/user/issues?access_token=4c9e6e9ea21c582ffbe7251c6fd3a450d512c471&state=all&filter=all");
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 

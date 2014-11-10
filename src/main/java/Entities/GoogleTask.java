@@ -25,5 +25,18 @@ public class GoogleTask {
 				(status.equals("completed") ? " , completed = " + completed : "") + 
 				" }"; 
 	}
-
+	
+	public boolean equals(Object obj){
+		if (obj != null){
+			if (obj instanceof GoogleTaskList){
+				GoogleTask taskObj = (GoogleTask) obj;
+				
+				return this.title.equals(taskObj.title) &&
+						this.notes.equals(taskObj.notes) &&
+						this.status.equals(taskObj.status) &&
+						this.completed.equals(taskObj.completed);
+			}
+		}
+		return false;
+	}
 }

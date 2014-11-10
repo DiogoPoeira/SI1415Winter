@@ -18,29 +18,12 @@ public class IssueToTaskListConverter {
 	}
 
 	private static GoogleTask convertSingle(GitHubIssue issue) {
-		String[] days, secs;
 		String status = null;
-		DateTime dateOfCompletion = null;
+		DateTime dateOfCompletion = DateTimeUtils.getDateTimeFromString(issue.closed_at); 
 		
 		if (issue.state != null)
 			status = issue.state.equalsIgnoreCase("open") ? "needsAction" : "completed";
 		
-		
-		if (issue.closed_at != null){
-			days = issue.closed_at.substring(0, issue.closed_at.indexOf("T")).split("-");
-			secs = issue.closed_at.substring(issue.closed_at.indexOf("T")+1 , issue.closed_at.length() - 1).split(":");
-			
-			dateOfCompletion = new DateTime(Integer.parseInt(days[0]), 
-					Integer.parseInt(days[1]),
-					Integer.parseInt(days[2]),
-					Integer.parseInt(secs[0]),
-					Integer.parseInt(secs[1]),
-					Integer.parseInt(secs[2]), 
-					0);
-		}
-		
-		
 		return new GoogleTask(issue.title, issue.body, status, dateOfCompletion);
 	}
-
 }
