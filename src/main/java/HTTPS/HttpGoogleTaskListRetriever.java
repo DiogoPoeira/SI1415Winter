@@ -12,6 +12,7 @@ import javax.net.ssl.HttpsURLConnection;
 import Core.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
+import JSON.Deserializers.GoogleTaskDeserializer;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
