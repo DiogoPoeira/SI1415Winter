@@ -25,12 +25,12 @@ public class GoogleTask {
 	
 	public boolean equals(Object obj){
 		if (obj != null){
-			if (obj instanceof GoogleTaskList){
+			if (obj instanceof GoogleTask){
 				GoogleTask taskObj = (GoogleTask) obj;
 				
-				return this.title.equals(taskObj.title) &&
-						this.status.equals(taskObj.status) &&
-						this.completed.equals(taskObj.completed);
+				return (this.title==null ? this.title == taskObj.title : this.title.equals(taskObj.title)) &&
+						(this.status == null ? this.status == taskObj.status : this.status.equals(taskObj.status)) &&
+						(this.completed==null ? this.completed == taskObj.completed : this.completed.equals(taskObj.completed));
 			}
 		}
 		return false;
