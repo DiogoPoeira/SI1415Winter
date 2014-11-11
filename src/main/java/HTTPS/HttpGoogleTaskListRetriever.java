@@ -105,7 +105,6 @@ public class HttpGoogleTaskListRetriever {
 
 		for (int i = 0; i < taskArray.size() ; ++i){
 			elem = taskArray.get(i);
-			System.out.println(elem);
 			aux= googledeserializer.deserialize(elem,GoogleTask.class,null);
 			if(!tasks.contains(aux))
 				tasksfound.add(elem);
