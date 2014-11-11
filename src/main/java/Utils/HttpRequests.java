@@ -23,6 +23,7 @@ public class HttpRequests {
 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 		con.setRequestProperty("Accept", "application/json");
+		con.setRequestProperty("Content-Type", "application/json");
 		con.setRequestProperty("Content-Length", "" + content.length());
 		con.setRequestProperty("Authorization", "Bearer " + WebApp.googleToken.getValue());
 
