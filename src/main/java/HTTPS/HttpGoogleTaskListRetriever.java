@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -68,7 +67,7 @@ public class HttpGoogleTaskListRetriever {
 				
 	}
 
-	public List<JsonElement> removeDuplicateTasksFromInsertList(JsonElement tasklist, List<GoogleTask> tasks) throws IOException {
+	public JsonArray removeDuplicateTasksFromInsertList(JsonElement tasklist, List<GoogleTask> tasks) throws IOException {
 		URL url = new URL("https://www.googleapis.com/tasks/v1/lists/"+((JsonObject) tasklist).get("id").getAsString()+"/tasks?access_token="+WebApp.googleToken.getValue());
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
@@ -97,9 +96,9 @@ public class HttpGoogleTaskListRetriever {
 		return filterTasks(tasks,response.toString());
 	}
 
-	private List<JsonElement> filterTasks(List<GoogleTask> tasks, String resp) {
+	private JsonArray filterTasks(List<GoogleTask> tasks, String resp) {
 		JsonArray taskArray = jsonParser.parse(resp).getAsJsonObject().get("items").getAsJsonArray();
-		List<JsonElement> tasksfound = new ArrayList<JsonElement>();
+		JsonArray tasksfound = new JsonArray();
 		GoogleTask aux;
 		JsonElement elem;
 
@@ -110,6 +109,7 @@ public class HttpGoogleTaskListRetriever {
 			if(!tasks.contains(aux))
 				tasksfound.add(elem);
 		}
+		
 		return tasksfound;
 	}
 
