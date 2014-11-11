@@ -70,7 +70,7 @@ public class HttpGoogleTaskListRetriever {
 				
 	}
 
-	public List<JsonElement> removeDuplicateTasksFromInsertList(JsonElement tasklist, List<GoogleTask> tasks) throws IOException {
+	public JsonArray removeDuplicateTasksFromInsertList(JsonElement tasklist, List<GoogleTask> tasks) throws IOException {
 		URL url = new URL("https://www.googleapis.com/tasks/v1/lists/"+((JsonObject) tasklist).get("id").getAsString()+"/tasks?access_token="+WebApp.googleToken.getValue());
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
@@ -99,19 +99,18 @@ public class HttpGoogleTaskListRetriever {
 		return filterTasks(tasks,response.toString());
 	}
 
-	private List<JsonElement> filterTasks(List<GoogleTask> tasks, String resp) {
+	private JsonArray filterTasks(List<GoogleTask> tasks, String resp) {
 		JsonArray taskArray = jsonParser.parse(resp).getAsJsonObject().get("items").getAsJsonArray();
-		List<JsonElement> tasksfound = new ArrayList<JsonElement>();
+		JsonArray tasksfound = new JsonArray();
 		List<GoogleTask> existingTasks = new ArrayList<GoogleTask>();
 		for(int i = 0;i<taskArray.size();i++)
 			existingTasks.add(googledeserializer.deserialize(taskArray.get(i),GoogleTask.class,null));
-		
-
 		for (GoogleTask task: tasks){
 			if(!existingTasks.contains(task)){
 				tasksfound.add(googleserializer.serialize(task, GoogleTask.class, null));
 			}
 		}
+		
 		return tasksfound;
 	}
 

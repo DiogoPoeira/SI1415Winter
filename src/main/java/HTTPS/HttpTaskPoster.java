@@ -1,15 +1,14 @@
 package HTTPS;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import Core.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
 import JSON.Serializers.GoogleTaskSerializer;
 import Utils.HttpRequests;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -21,16 +20,17 @@ public class HttpTaskPoster {
 	
 	public void post(List<GoogleTask> tasks) throws IOException{
 		JsonElement tasklist = retriever.lookForTaskList();
-		List<JsonElement> elements; 
+		JsonArray elements; 
 		if (tasklist != null)
 			elements = retriever.removeDuplicateTasksFromInsertList(tasklist, tasks);
 		else{
 			tasklist = addNewList();
 			elements= tasksToJson(tasks);
 		}
-		String urlname = "https://www.googleapis.com/tasks/v1/lists/"+((JsonObject)tasklist).get("id").getAsString()+"/tasks";	
-		for(JsonElement elem : elements)
-			HttpRequests.sendPost(urlname, elem);
+		String urlname = "https://www.googleapis.com/tasks/v1/lists/"+((JsonObject)tasklist).get("id").getAsString()+"/tasks";
+		
+		System.out.println("Numero de elementos - " + elements.size());
+		HttpRequests.sendPost(urlname, elements);
 	}
 
 	private JsonElement addNewList() throws IOException {
@@ -42,11 +42,13 @@ public class HttpTaskPoster {
 		return retriever.lookForTaskList();
 	}
 
-	private List<JsonElement> tasksToJson(List<GoogleTask> tasks) {
-		List<JsonElement> elements = new ArrayList<JsonElement>();
+	private JsonArray tasksToJson(List<GoogleTask> tasks) {
+		JsonArray elements = new JsonArray();
+		
 		for(GoogleTask g: tasks){
 			elements.add(serializer.serialize(g, GoogleTask.class, null));
 		}
+		
 		return elements;
 	}
 }
