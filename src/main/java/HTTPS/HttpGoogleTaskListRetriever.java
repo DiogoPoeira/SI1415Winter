@@ -13,6 +13,7 @@ import Core.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
 import JSON.Deserializers.GoogleTaskDeserializer;
+import JSON.Serializers.GoogleTaskSerializer;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,6 +23,7 @@ import com.google.gson.JsonParser;
 public class HttpGoogleTaskListRetriever {
 	
 	private GoogleTaskDeserializer googledeserializer = new GoogleTaskDeserializer();
+	private GoogleTaskSerializer googleserializer = new GoogleTaskSerializer();
 	private JsonParser jsonParser = new JsonParser();
 	
 	public JsonElement lookForTaskList() throws IOException{
@@ -100,14 +102,15 @@ public class HttpGoogleTaskListRetriever {
 	private List<JsonElement> filterTasks(List<GoogleTask> tasks, String resp) {
 		JsonArray taskArray = jsonParser.parse(resp).getAsJsonObject().get("items").getAsJsonArray();
 		List<JsonElement> tasksfound = new ArrayList<JsonElement>();
-		GoogleTask aux;
-		JsonElement elem;
+		List<GoogleTask> existingTasks = new ArrayList<GoogleTask>();
+		for(int i = 0;i<taskArray.size();i++)
+			existingTasks.add(googledeserializer.deserialize(taskArray.get(i),GoogleTask.class,null));
+		
 
-		for (int i = 0; i < taskArray.size() ; ++i){
-			elem = taskArray.get(i);
-			aux= googledeserializer.deserialize(elem,GoogleTask.class,null);
-			if(!tasks.contains(aux))
-				tasksfound.add(elem);
+		for (GoogleTask task: tasks){
+			if(!existingTasks.contains(task)){
+				tasksfound.add(googleserializer.serialize(task, GoogleTask.class, null));
+			}
 		}
 		return tasksfound;
 	}
