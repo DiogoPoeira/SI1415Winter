@@ -30,5 +30,6 @@ public class GoogleTasksCallbackServlet extends HttpServlet {
         GitHubIssue[] issues = issuesRequester.getIssuesFromAuthenticatedGitUser();
         List<GoogleTask> tasks = IssueToTaskListConverter.convertList(issues);
         poster.post(tasks);
+        resp.sendRedirect("https://mail.google.com/tasks/canvas?list=GitHubIssues");
 	}
 }
