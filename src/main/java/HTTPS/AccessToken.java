@@ -8,12 +8,12 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import Servlets.GithubCallbackServlet;
 import Servlets.GithubServlet;
 import Servlets.GoogleTasksServlet;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class AccessToken {
 

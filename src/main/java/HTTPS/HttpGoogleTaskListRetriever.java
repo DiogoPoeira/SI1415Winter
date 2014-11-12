@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -67,9 +68,11 @@ public class HttpGoogleTaskListRetriever {
 				
 	}
 
-	public JsonArray removeDuplicateTasksFromInsertList(JsonElement tasklist, List<GoogleTask> tasks) throws IOException {
+	public List<JsonElement> removeDuplicateTasksFromInsertList(JsonElement tasklist, List<GoogleTask> tasks) throws IOException {
 		URL url = new URL("https://www.googleapis.com/tasks/v1/lists/"+((JsonObject) tasklist).get("id").getAsString()+"/tasks?access_token="+WebApp.googleToken.getValue());
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+		
+		System.out.println("Dis is ma list" + tasklist.toString());
 
 		con.setRequestMethod("GET");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -80,8 +83,8 @@ public class HttpGoogleTaskListRetriever {
 		con.setDoOutput(true);
 
 		int responseCode = con.getResponseCode();
-		System.out.println("Sending 'GET' request to URL : " + url.getHost());
-		System.out.println("Response Code : " + responseCode);
+		//System.out.println("Sending 'GET' request to URL : " + url.getHost());
+		//System.out.println("Response Code : " + responseCode);
 
 		BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()));
 		String inputLine = in.readLine();
@@ -96,9 +99,9 @@ public class HttpGoogleTaskListRetriever {
 		return filterTasks(tasks,response.toString());
 	}
 
-	private JsonArray filterTasks(List<GoogleTask> tasks, String resp) {
+	private List<JsonElement> filterTasks(List<GoogleTask> tasks, String resp) {
 		JsonArray taskArray = jsonParser.parse(resp).getAsJsonObject().get("items").getAsJsonArray();
-		JsonArray tasksfound = new JsonArray();
+		List<JsonElement> tasksfound = new ArrayList<JsonElement>();
 		GoogleTask aux;
 		JsonElement elem;
 
@@ -108,7 +111,6 @@ public class HttpGoogleTaskListRetriever {
 			if(!tasks.contains(aux))
 				tasksfound.add(elem);
 		}
-		
 		return tasksfound;
 	}
 

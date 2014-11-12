@@ -34,8 +34,12 @@ public class HttpRequests {
 		wr.flush();
 		wr.close();
 
-		int responseCode = con.getResponseCode();
-		System.out.println("Sending 'POST' request to URL : " + con.getURL().getHost()+con.getURL().getFile());
-		System.out.println("Response Code : " + responseCode);
+		//int responseCode = con.getResponseCode();
+		//System.out.println("Sending 'POST' request to URL : " + con.getURL().getHost()+con.getURL().getFile());
+		//System.out.println("Response Code : " + responseCode);
+	}
+	
+	public static String sendGet(String urlString){
+		return null;
 	}
 }

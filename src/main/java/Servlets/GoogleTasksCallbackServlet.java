@@ -19,15 +19,16 @@ import Utils.IssueToTaskListConverter;
 public class GoogleTasksCallbackServlet extends HttpServlet {
 
 	public static final String CLIENT_SECRET = "BQpi9sd10uwgf8u4G-fclyh8";
+	public static final HttpTaskPoster poster = new HttpTaskPoster();
+    
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		String code = req.getParameter("code");
 		WebApp.googleToken = AccessToken.getGoogleTasksAccessToken(code);
 		resp.setStatus(200);
-        HttpIssuesRequester issuesRequester = new HttpIssuesRequester();
+		HttpIssuesRequester issuesRequester = new HttpIssuesRequester();
         GitHubIssue[] issues = issuesRequester.getIssuesFromAuthenticatedGitUser();
         List<GoogleTask> tasks = IssueToTaskListConverter.convertList(issues);
-        HttpTaskPoster poster = new HttpTaskPoster();
         poster.post(tasks);
 	}
 }

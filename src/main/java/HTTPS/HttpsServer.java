@@ -19,6 +19,7 @@ public class HttpsServer {
 		server = new Server(LISTEN_PORT);
 		handler = new ServletHandler();
         server.setHandler(handler);
+        handler.addServletWithMapping(HomepageServlet.class, "/");
         handler.addServletWithMapping(GithubServlet.class, "/github");
         handler.addServletWithMapping(GoogleTasksServlet.class, "/gtasks");
         handler.addServletWithMapping(GoogleTasksCallbackServlet.class, "/gtaskscallback");
