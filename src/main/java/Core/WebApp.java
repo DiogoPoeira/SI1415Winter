@@ -10,6 +10,7 @@ public class WebApp {
 		HttpsServer server = new HttpsServer();
         server.start();
         System.out.println("Server is started");
+       
         while(googleToken==null);
                 
         System.in.read();

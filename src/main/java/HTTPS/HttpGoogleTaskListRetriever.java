@@ -1,19 +1,17 @@
 package HTTPS;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.util.Map;
 
 import Core.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
 import JSON.Deserializers.GoogleTaskDeserializer;
 import JSON.Serializers.GoogleTaskSerializer;
+import Utils.HttpRequests;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -27,35 +25,17 @@ public class HttpGoogleTaskListRetriever {
 	private JsonParser jsonParser = new JsonParser();
 	
 	public JsonElement lookForTaskList() throws IOException{
+		String url = "https://www.googleapis.com/tasks/v1/users/@me/lists";
+		Map<String, String> urlProperties = new HashMap<String,String>();
 		
-		URL url = new URL("https://www.googleapis.com/tasks/v1/users/@me/lists");
-		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+		urlProperties.put("User-Agent", "Mozilla/5.0");
+		urlProperties.put("Accept-Language", "en-US,en;q=0.5");
+		urlProperties.put("Accept", "application/json");	
+		urlProperties.put("Authorization", "Bearer " + WebApp.googleToken.getValue());
 
-		con.setRequestMethod("GET");
-		con.setRequestProperty("User-Agent", "Mozilla/5.0");
-		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-		con.setRequestProperty("Accept", "application/json");	
-		con.setRequestProperty("Authorization", "Bearer " + WebApp.googleToken.getValue());
-
-		// Send post request
-		con.setDoOutput(true);
-
-		int responseCode = con.getResponseCode();
-		System.out.println("Sending 'GET' request to URL : " + url.getHost());
-		System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()));
-		String inputLine = in.readLine();
-		StringBuffer response = new StringBuffer();
-
-		while ( inputLine != null){
-			response.append(inputLine);
-			inputLine = in.readLine();
-		}
-		in.close();
-		System.out.println(response.toString());
-		return getTaskListsFromJsonString(response.toString());
+		String getResponse = HttpRequests.sendGet(url, urlProperties, null);
 		
+		return getTaskListsFromJsonString(getResponse);
 	}
 
 	private JsonElement getTaskListsFromJsonString(String resp) {
@@ -71,34 +51,12 @@ public class HttpGoogleTaskListRetriever {
 	}
 
 	public List<JsonElement> removeDuplicateTasksFromInsertList(JsonElement tasklist, List<GoogleTask> tasks) throws IOException {
-		URL url = new URL("https://www.googleapis.com/tasks/v1/lists/"+((JsonObject) tasklist).get("id").getAsString()+"/tasks?access_token="+WebApp.googleToken.getValue());
-		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+		String urlString = "https://www.googleapis.com/tasks/v1/lists/"+((JsonObject) tasklist).get("id").getAsString()+
+									"/tasks?access_token="+WebApp.googleToken.getValue();
 		
-		System.out.println("Dis is ma list" + tasklist.toString());
+		String getResponse = HttpRequests.sendGet(urlString, null, null);
 
-		con.setRequestMethod("GET");
-		con.setRequestProperty("User-Agent", "Mozilla/5.0");
-		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-		con.setRequestProperty("Accept", "application/json");			
-
-		// Send post request
-		con.setDoOutput(true);
-
-		//int responseCode = con.getResponseCode();
-		//System.out.println("Sending 'GET' request to URL : " + url.getHost());
-		//System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()));
-		String inputLine = in.readLine();
-		StringBuffer response = new StringBuffer();
-
-		while ( inputLine != null){
-			response.append(inputLine);
-			inputLine = in.readLine();
-		}
-		in.close();
-		
-		return filterTasks(tasks,response.toString());
+		return filterTasks(tasks, getResponse);
 	}
 
 	private List<JsonElement> filterTasks(List<GoogleTask> tasks, String resp) {
@@ -110,9 +68,8 @@ public class HttpGoogleTaskListRetriever {
 			existingTasks.add(googledeserializer.deserialize(taskArray.get(i),GoogleTask.class,null));
 
 		for (GoogleTask task: tasks){
-			if(!existingTasks.contains(task)){
+			if(!existingTasks.contains(task))
 				tasksfound.add(googleserializer.serialize(task, GoogleTask.class, null));
-			}
 		}
 		
 		return tasksfound;

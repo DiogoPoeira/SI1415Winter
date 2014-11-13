@@ -21,7 +21,7 @@ public class HttpsServer {
 		handler = new ServletHandler();
         server.setHandler(handler);
         handler.addServletWithMapping(HomepageServlet.class, "/");
-        handler.addServletWithMapping(GithubServlet.class, "/github");
+        handler.addServletWithMapping(GithubServlet.class, "/importissues");
         handler.addServletWithMapping(GoogleTasksServlet.class, "/gtasks");
         handler.addServletWithMapping(GoogleTasksCallbackServlet.class, "/gtaskscallback");
         handler.addServletWithMapping(GithubCallbackServlet.class, "/githubcallback");
