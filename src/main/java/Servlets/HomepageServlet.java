@@ -3,7 +3,11 @@ package Servlets;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,38 +17,45 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 public class HomepageServlet extends HttpServlet{
 
-	private String PATH = "resources/homepage.html";
-	private volatile String CONTENT = null;
+	private Map<String,String> resources = new HashMap<String, String>();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String content, requestPath = "resources" + URLDecoder.decode(req.getRequestURI(),"UTF-8");
 
-		if (CONTENT == null){
-			synchronized (this) {
-				if (CONTENT == null){
-					StringBuffer homePageContent = new StringBuffer();
+		if (requestPath.equals("resources/"))
+			requestPath = "resources/homepage.html";
+		
+		if (resources.containsKey(requestPath))
+			content = resources.get(requestPath);
+		else {
+			StringBuffer homePageContent = new StringBuffer();
+			
+			InputStream inputStream = HomepageServlet.class.getClassLoader().getResourceAsStream(requestPath);
+			
+			if (inputStream == null)
+				inputStream = HomepageServlet.class.getClassLoader().getResourceAsStream("resources/homepage.html");
+			
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream)); ){
 
-					try (BufferedReader br = new BufferedReader(new InputStreamReader(HomepageServlet.class.getClassLoader().getResourceAsStream(PATH))); ){
+				String aux = br.readLine();
 
-						String aux = br.readLine();
-
-						while (aux != null){
-							homePageContent.append(aux);
-							aux = br.readLine();
-						}
-					}
-					
-					CONTENT = homePageContent.toString();
+				while (aux != null){
+					homePageContent.append(aux);
+					aux = br.readLine();
 				}
 			}
+			
+			content = homePageContent.toString();
+			resources.put(requestPath, content);
 		}
 		
 		DataOutputStream wr = new DataOutputStream(resp.getOutputStream());
-		wr.writeBytes(CONTENT.toString());
+		wr.writeBytes(content.toString());
 		wr.flush();
 		wr.close();
 
-		resp.setContentLength(CONTENT.length());
+		resp.setContentLength(content.length());
 		resp.setStatus(200);
 	}
 }
