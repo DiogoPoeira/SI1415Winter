@@ -10,6 +10,8 @@ import Servlets.GoogleTasksCallbackServlet;
 import Servlets.GoogleTasksServlet;
 import Servlets.HomepageServlet;
 import Servlets.ShowIssuesServlet;
+import Servlets.AuxGitHubServlet;
+import Servlets.AuxGitHubCallbackServlet;
 
 public class HttpsServer {
 	
@@ -22,7 +24,9 @@ public class HttpsServer {
 		handler = new ServletHandler();
         server.setHandler(handler);
         handler.addServletWithMapping(HomepageServlet.class, "/");
-        handler.addServletWithMapping(ShowIssuesServlet.class, "/showgithubissues");
+        handler.addServletWithMapping(AuxGitHubServlet.class, "/showgithubissues");
+        handler.addServletWithMapping(AuxGitHubCallbackServlet.class, "/githubcallback/show");
+        handler.addServletWithMapping(ShowIssuesServlet.class, "/githubissues");
         handler.addServletWithMapping(GithubServlet.class, "/importissues");
         handler.addServletWithMapping(GoogleTasksServlet.class, "/gtasks");
         handler.addServletWithMapping(GoogleTasksCallbackServlet.class, "/gtaskscallback");
