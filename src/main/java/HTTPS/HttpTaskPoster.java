@@ -24,9 +24,9 @@ public class HttpTaskPoster {
 	
 	public void post(List<GoogleTask> tasks) throws IOException, InterruptedException{
 		JsonElement tasklist = retriever.lookForTaskList();
-		Map<String, String> urlProperties = new HashMap<String, String>();
+		final Map<String, String> urlProperties = new HashMap<String, String>();
 		List<JsonElement> elements;
-		Semaphore sem = new Semaphore(0);
+		final Semaphore sem = new Semaphore(0);
 		
 		urlProperties.put("User-Agent", "Mozilla/5.0");
 		urlProperties.put("Accept-Language", "en-US,en;q=0.5");
@@ -41,9 +41,9 @@ public class HttpTaskPoster {
 			elements = tasksToJson(tasks);
 		}
 		
-		String urlname = "https://www.googleapis.com/tasks/v1/lists/"+((JsonObject)tasklist).get("id").getAsString()+"/tasks";
+		final String urlname = "https://www.googleapis.com/tasks/v1/lists/"+((JsonObject)tasklist).get("id").getAsString()+"/tasks";
 		
-		for(JsonElement elem : elements){
+		for(final JsonElement elem : elements){
 			Thread posterThread = new Thread( new Runnable() {
 				
 				@Override

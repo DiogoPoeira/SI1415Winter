@@ -3,6 +3,8 @@ package HTTPS;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 
+import Servlets.AuxGitHubCallbackServlet;
+import Servlets.AuxGitHubServlet;
 import Servlets.GithubCallbackServlet;
 import Servlets.GithubServlet;
 import Servlets.GithubTokenServlet;
@@ -10,8 +12,6 @@ import Servlets.GoogleTasksCallbackServlet;
 import Servlets.GoogleTasksServlet;
 import Servlets.HomepageServlet;
 import Servlets.ShowIssuesServlet;
-import Servlets.AuxGitHubServlet;
-import Servlets.AuxGitHubCallbackServlet;
 
 public class HttpsServer {
 	
