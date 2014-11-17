@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Core.WebApp;
+import App.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
 import JSON.Deserializers.GoogleTaskDeserializer;

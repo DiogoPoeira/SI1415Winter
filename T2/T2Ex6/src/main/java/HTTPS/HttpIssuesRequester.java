@@ -2,7 +2,7 @@ package HTTPS;
 
 import java.io.IOException;
 
-import Core.WebApp;
+import App.WebApp;
 import Entities.GitHubIssue;
 import JSON.Deserializers.IssueDeserializer;
 import Utils.HttpRequests;

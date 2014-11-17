@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Core.WebApp;
+import App.WebApp;
 import Entities.GitHubIssue;
 import Entities.GoogleTask;
 import HTTPS.AccessToken;

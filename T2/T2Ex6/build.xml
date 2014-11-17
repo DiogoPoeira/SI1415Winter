@@ -1,0 +1,61 @@
+<project name="SIEx6" default="test" basedir=".">
+
+  <description> 
+    Ant build file for SI
+  </description>
+
+  <!--++++++++++ Properties ++++++++++-->
+  <property name="src-main" location="src/main/java"/>
+  <property name="src-test" location="src/test/java"/>
+  <property name="src-apps" location="src/main/apps"/>
+  <property name="target"  location="target"/>
+  <property name="target-classes"  location="target/classes"/>
+  <property name="target-test-classes"  location="target/test-classes"/>
+  <property name="target-test-reports"	location="target/test-reports"/>
+
+  <path id="main.extlibs.class.path">
+    <fileset dir="vendor/main/lib">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+  
+  <path id="test.extlibs.class.path">
+    <path refid="main.extlibs.class.path" />
+    <fileset dir="vendor/test/lib">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <!-- ++++++++++ Targets ++++++++++ -->
+
+  <target name="init" description ="Creates the target folders">
+    <mkdir dir="${target-classes}"/>
+    <mkdir dir="${target-test-classes}"/>
+    <mkdir dir="${target-test-reports}"/>
+  </target>
+
+  <target name="clean" description="Removes the target folders" >
+    <delete includeEmptyDirs="true" failonerror="false" verbose="true" >
+  	    <fileset dir="${target}" defaultexcludes="false"/>
+    </delete>
+  </target>
+
+  <target name="compile-main" depends="init"
+        description="Compiles the main source" >
+
+    <javac debug="true"
+           srcdir="${src-main}"
+           destdir="${target-classes}"
+           includeantruntime="false">
+      <classpath>
+        <path refid="main.extlibs.class.path" />
+      </classpath>
+    </javac>
+    <copy todir="${target-classes}">
+      <fileset dir="${src-main}"
+	  includes="res/*">
+        <include name="**/*.properties"/>
+      </fileset>
+    </copy>
+  </target>
+</project>

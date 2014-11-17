@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-import Core.WebApp;
+import App.WebApp;
 import Entities.GoogleTask;
 import Entities.GoogleTaskList;
 import JSON.Serializers.GoogleTaskSerializer;

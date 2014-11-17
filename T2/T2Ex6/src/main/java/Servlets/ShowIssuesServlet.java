@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Core.WebApp;
+import App.WebApp;
 
 @SuppressWarnings("serial")
 public class ShowIssuesServlet extends HttpServlet{

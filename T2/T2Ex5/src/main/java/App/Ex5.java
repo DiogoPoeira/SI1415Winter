@@ -1,35 +1,27 @@
+package App;
 
-public class Execute {
-	/*
-	private static int LISTEN_PORT = 8080;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
+import java.util.Collection;
+import java.util.List;
+import java.util.Scanner;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLPeerUnverifiedException;
+
+public class Ex5 {
 
 	public static void main(String [] args) throws Exception{
-		//Ex5();
-		Ex6();
+		Ex();
 	}
 
-	private static void Ex6() throws Exception {
-		Server server = new Server(LISTEN_PORT);
-		ServletHandler handler = new ServletHandler();
-		server.setHandler(handler);
-		handler.addServletWithMapping(ShowIssuesServlet.class, "/git-issues");
-		server.start();
-		
-		System.out.println("Brah do you even server?");
-		
-		System.in.read();
-		server.stop();
-		
-		System.out.println("No, I don't even server :( !");
-	}
-
-	private static void Ex5() throws SSLPeerUnverifiedException {
+	private static void Ex() throws SSLPeerUnverifiedException {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Please insert the desired URL!");
-		String urlname;// = in.nextLine();
-		urlname = "https://www.google.pt";
+		String urlname = in.nextLine();
 
-		HttpsURLConnection connection = URLConnectionManager.getConnection(urlname);
+		HttpsURLConnection connection = Utils.getConnection(urlname);
 		Certificate[] certificates = connection.getServerCertificates();
 		X509Certificate earliestExpirationDateCert = null;
 
@@ -42,7 +34,7 @@ public class Execute {
 
 				System.out.println("Issuer details - " + myCert.getIssuerDN());
 				System.out.println("Serial number - " + myCert.getSerialNumber());
-				
+
 				if(earliestExpirationDateCert == null){
 					earliestExpirationDateCert= myCert;
 					printHostNameValidity(myCert);
@@ -79,5 +71,7 @@ public class Execute {
 			e.printStackTrace();
 			System.out.println("Error parsing certificate.");
 		}
-		*/
+
+	}
+
 }
