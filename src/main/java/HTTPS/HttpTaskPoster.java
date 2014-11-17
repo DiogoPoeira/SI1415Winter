@@ -44,15 +44,20 @@ public class HttpTaskPoster {
 		String urlname = "https://www.googleapis.com/tasks/v1/lists/"+((JsonObject)tasklist).get("id").getAsString()+"/tasks";
 		
 		for(JsonElement elem : elements){
-			Thread posterThread = new Thread( () -> {
-				try {
-					
-					HttpRequests.sendPost(urlname, urlProperties, elem);
-					sem.release();
-					
-				} catch (Exception e) {
-					e.printStackTrace();
+			Thread posterThread = new Thread( new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						
+						HttpRequests.sendPost(urlname, urlProperties, elem);
+						sem.release();
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
+				
 			});
 			
 			posterThread.start();
