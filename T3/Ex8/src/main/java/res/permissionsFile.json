@@ -1,0 +1,49 @@
+{
+  "roleArray" : [
+    {
+      "id" : "sysAdmin",
+      "permissionList" : [
+        {
+          "id" : "Leitura",
+          "resourceList" : [
+            "res/file1.txt",
+            "res/file2.txt"
+          ]
+         },
+         { 
+          "id" : "Escrita",
+          "resourceList" : [
+            "res/file1.txt"
+          ]
+        }
+      ]
+    }
+  ],
+  
+  "userArray" : [
+    {
+      "id" : "Luis",
+      "roles" : [
+      	{
+      		"id" : "sysAdmin"
+      	}
+      ]
+    },
+    {
+      "id" : "Diogo",
+      "roles" : [
+      	{
+      		"id" : "sysAdmin"
+      	}
+      ]
+    },
+    {
+      "id" : "Margarida",
+      "roles" : [
+      	{
+      		"id" : "sysAdmin"
+      	}
+      ]
+    }
+  ]
+}
