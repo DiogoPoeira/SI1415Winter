@@ -17,7 +17,54 @@
           ]
         }
       ]
-    }
+    },
+    {
+      "id" : "sysUser",
+      "permissionList" : [
+        {
+          "id" : "Leitura",
+          "resourceList" : [
+            "res/file1.txt",
+            "res/file2.txt"
+          ]
+         }
+      ]
+     },
+     {
+      "id" : "sysNewbie",
+      "permissionList" : [
+        {
+          "id" : "Leitura",
+          "resourceList" : [
+            "res/file1.txt"
+          ]
+         }
+      ]
+      },
+      {
+      "id" : "guest",
+      "permissionList" : [
+        {
+        }
+       ]
+      }
+  ],
+  
+  "roleDependencies" : [
+  	{
+  		"Role" : "sysAdmin",
+  		"ContainedRoles" : [
+  			"sysUser",
+  			"sysNewbie",
+  			"guest"
+  		]
+  	},
+  	{
+  		"Role" : "sysUser",
+  		"ContainedRole" : [
+  			"guest"
+  		]
+  	}
   ],
   
   "userArray" : [
