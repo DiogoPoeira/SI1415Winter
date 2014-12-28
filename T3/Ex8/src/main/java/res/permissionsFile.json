@@ -43,14 +43,11 @@
       },
       {
       "id" : "guest",
-      "permissionList" : [
-        {
-        }
-       ]
+      "permissionList" : []
       }
   ],
   
-  "roleDependencies" : [
+  "roleHierarchy" : [
   	{
   		"Role" : "sysAdmin",
   		"ContainedRoles" : [
@@ -61,7 +58,7 @@
   	},
   	{
   		"Role" : "sysUser",
-  		"ContainedRole" : [
+  		"ContainedRoles" : [
   			"guest"
   		]
   	}
