@@ -3,9 +3,9 @@ package JSONDeserializer;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import PDP.Core;
-import Roles.Role;
-import Users.User;
+import PDP.PDP;
+import PDP.DataTypes.Role;
+import PDP.DataTypes.User;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -15,9 +15,9 @@ import com.google.gson.JsonParseException;
 
 public class UserDeserializer implements JsonDeserializer<User>{
 
-	private Core core;
+	private PDP core;
 	
-	public UserDeserializer(Core core) {
+	public UserDeserializer(PDP core) {
 		this.core = core;
 	}
 

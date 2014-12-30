@@ -1,28 +1,26 @@
-package Roles;
+package PDP.DataTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Permissions.Permissions;
-
 public class Role {
 	
 	public final String id;
-	private List<Permissions> permissionList;
+	private List<Action> permissionList;
 	private List<Role> subRoles;
 
 	public Role( String id ){
 		this.id = id;
-		this.permissionList = new ArrayList<Permissions>();
+		this.permissionList = new ArrayList<Action>();
 		this.subRoles = new ArrayList<Role>();
 	}
 	
-	public void addPermission(Permissions permission){
+	public void addPermission(Action permission){
 		if (!permissionList.contains(permission))
 			permissionList.add(permission);
 	}
 	
-	public List<Permissions> getPermissionsList(){
+	public List<Action> getPermissionsList(){
 		return permissionList;
 	}
 	
@@ -39,7 +37,7 @@ public class Role {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null){
-			if (obj instanceof Permissions){
+			if (obj instanceof Action){
 				Role roleObj = (Role)obj;
 				return roleObj.id.equals(this.id);
 			}

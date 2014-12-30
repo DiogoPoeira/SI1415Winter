@@ -1,10 +1,7 @@
-package Users;
+package PDP.DataTypes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import Permissions.Permissions;
-import Roles.Role;
 
 public class User {
 
@@ -27,7 +24,7 @@ public class User {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null){
-			if (obj instanceof Permissions){
+			if (obj instanceof Action){
 				User userObj = (User)obj;
 				return userObj.id.equals(this.id);
 			}

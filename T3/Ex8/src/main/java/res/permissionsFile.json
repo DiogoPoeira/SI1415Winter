@@ -4,16 +4,16 @@
       "id" : "sysAdmin",
       "permissionList" : [
         {
-          "id" : "Leitura",
+          "id" : "HTTP",
           "resourceList" : [
             "res/file1.txt",
             "res/file2.txt"
           ]
          },
          { 
-          "id" : "Escrita",
+          "id" : "APP",
           "resourceList" : [
-            "res/file1.txt"
+            "res/file3.txt"
           ]
         }
       ]
@@ -22,7 +22,7 @@
       "id" : "sysUser",
       "permissionList" : [
         {
-          "id" : "Leitura",
+          "id" : "HTTP",
           "resourceList" : [
             "res/file1.txt",
             "res/file2.txt"
@@ -34,7 +34,7 @@
       "id" : "sysNewbie",
       "permissionList" : [
         {
-          "id" : "Leitura",
+          "id" : "HTTP",
           "resourceList" : [
             "res/file1.txt"
           ]

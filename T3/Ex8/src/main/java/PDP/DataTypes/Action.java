@@ -1,14 +1,14 @@
-package Permissions;
+package PDP.DataTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Permissions {
+public class Action {
 	
 	public String id;
 	private List<String> resourceList;
 
-	public Permissions(String id){
+	public Action(String id){
 		this.id = id;
 		this.resourceList = new ArrayList<String>();
 	}
@@ -25,8 +25,8 @@ public class Permissions {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null){
-			if (obj instanceof Permissions){
-				Permissions permissionObj = (Permissions)obj;
+			if (obj instanceof Action){
+				Action permissionObj = (Action)obj;
 				return permissionObj.id.equals(this.id);
 			}
 		}

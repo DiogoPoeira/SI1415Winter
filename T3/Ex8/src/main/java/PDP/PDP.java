@@ -10,15 +10,15 @@ import java.util.NoSuchElementException;
 
 import JSONDeserializer.RoleDeserializer;
 import JSONDeserializer.UserDeserializer;
-import Permissions.Permissions;
-import Roles.Role;
-import Users.User;
+import PDP.DataTypes.Action;
+import PDP.DataTypes.Role;
+import PDP.DataTypes.User;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class Core {
+public class PDP {
 
 	private JsonParser parser = new JsonParser();
 	private UserDeserializer userDeserializer = new UserDeserializer(this);
@@ -26,17 +26,17 @@ public class Core {
 	private List<User> userList;
 	private List<Role> roleList;
 	
-	public Core(){
+	public PDP(){
 		this.userList = new ArrayList<User>();
 		this.roleList = new ArrayList<Role>();
 		load();
 	}
 	
-	public boolean getResource(User user, Permissions permission, String resource){
-		return getResource(user.getRoles(), permission, resource);
+	public boolean getResource(User user, Action action, String resource){
+		return getResource(user.getRoles(), action, resource);
 	}
 	
-	private boolean getResource(List<Role> roles, Permissions permission, String resource) {
+	private boolean getResource(List<Role> roles, Action permission, String resource) {
 		for (Role role : roles) {
 			if (checkForPermissionInSubRoles(role, permission, resource)){
 				return true;
@@ -46,10 +46,10 @@ public class Core {
 		return false;
 	}
 
-	private boolean checkForPermissionInSubRoles(Role role, Permissions permission, String resource) {
-		List<Permissions> permissionsList = role.getPermissionsList();
-		if (permissionsList.contains(permission)) {
-			for(Permissions perm : permissionsList){
+	private boolean checkForPermissionInSubRoles(Role role, Action permission, String resource) {
+		List<Action> actionList = role.getPermissionsList();
+		if (actionList.contains(permission)) {
+			for(Action perm : actionList){
 				if (perm.equals(permission) && perm.getResourceList().contains(resource)){
 					return true;
 				}
@@ -60,7 +60,7 @@ public class Core {
 	}
 
 	private void load(){
-		try (InputStream stream = Core.class.getClassLoader().getResourceAsStream("res/permissionsFile.json");
+		try (InputStream stream = PDP.class.getClassLoader().getResourceAsStream("res/permissionsFile.json");
 				BufferedReader br = new BufferedReader(new InputStreamReader(stream))){
 			
 			StringBuffer buffer = new StringBuffer();
@@ -124,5 +124,14 @@ public class Core {
 	
 	public List<Role> getRoles(){
 		return roleList;
+	}
+	
+	public User getUser(String userName){
+		for (User user : userList){
+			if (user.id.equals(userName))
+				return user;
+		}
+		
+		throw new NoSuchElementException("O username inserido não foi encontrado.");
 	}
 }

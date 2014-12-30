@@ -3,7 +3,7 @@ package JSONDeserializer;
 import java.lang.reflect.Type;
 import java.security.acl.Permission;
 
-import Roles.Role;
+import PDP.DataTypes.Role;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
