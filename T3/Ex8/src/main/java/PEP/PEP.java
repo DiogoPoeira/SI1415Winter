@@ -12,17 +12,17 @@ public final class PEP {
 	private static final PDP PDP = new PDP();
 	private static final ResourceManager RESOURCE_MANAGER = new ResourceManager();
 	
-	public static final byte[] getResource(Action action, String resourceId){
-		User user;
-		
+	public static final byte[] getResource(String userName , Action action, String resourceId){
 		try {
-			user = PDP.getUser("Luis");
+			
+			User user = PDP.getUser(userName);
+			
+			if (PDP.getResource(user, action, resourceId))
+				return RESOURCE_MANAGER.retrieveResource(resourceId);
+			
 		} catch (NoSuchElementException e){
-			throw new UnauthorizedAccess("O utilizador não se encontra no sistema.");
+			
 		}
-		
-		if (PDP.getResource(user, action, resourceId))
-			return RESOURCE_MANAGER.retrieveResource(resourceId);
 		
 		throw new UnauthorizedAccess("O acesso ao recurso : " + resourceId + " foi negado.");
 	}

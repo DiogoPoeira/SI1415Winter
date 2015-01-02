@@ -17,20 +17,33 @@ import javax.servlet.http.HttpServletResponse;
 public class Servlet extends HttpServlet{
 
 	private static Action httpAction = new Action("HTTP");
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		byte[] content;
-		String resourceId = URLDecoder.decode(req.getRequestURI(),"UTF-8").substring(1);
+		String resourceId = URLDecoder.decode(req.getRequestURI(),"UTF-8").substring(1),
+				queryString = req.getQueryString(),
+				userName = null;
+
+		if (queryString != null) {
+			String [] queryParameters = queryString.split("&");
+
+			for (String parameter : queryParameters) {
+				if (parameter.contains("user")){
+					userName = parameter.substring(parameter.indexOf("=") + 1 );
+					break;
+				}
+			}
+		}
 
 		try {
-			content = PEP.getResource(httpAction, resourceId);
+			content = PEP.getResource(userName, httpAction, resourceId);
 			resp.setStatus(200);
 		} catch (UnauthorizedAccess e){
 			content = ("ERRO :\n" + e.getMessage()).getBytes();
 			resp.setStatus(403);
 		}
-		
+
 		DataOutputStream wr = new DataOutputStream(resp.getOutputStream());
 		wr.writeBytes(new String(content));
 		wr.flush();
