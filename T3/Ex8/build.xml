@@ -1,4 +1,4 @@
-<project name="T3Ex8" default="test" basedir=".">
+<project name="T3" default="test" basedir=".">
 
   <description> 
     Ant build file for SI
